@@ -1,4 +1,4 @@
-//Fetch data with promises
+//Start fetching API with promises
 async function start() {
   const response = await fetch("https://dog.ceo/api/breeds/list/all");
   const data = await response.json();
@@ -7,8 +7,11 @@ async function start() {
 
 start();
 
+//Create list of breeds
 function createBreedList(breedList) {
-  document.getElementById("breed").innerHTML = `<select>
+  document.getElementById(
+    "breed"
+  ).innerHTML = `<select onchange="loadByBreed(this.value)">
   <option>Choose a dog breed</option>
  ${Object.keys(breedList)
    .map(function (breed) {
@@ -16,4 +19,12 @@ function createBreedList(breedList) {
    })
    .join("")}
 </select>`;
+}
+
+async function loadByBreed(breed) {
+  if (breed != "Choose a dog breed") {
+    const response = await fetch(`https://dog.ceo/api/breed/${breed}/images`);
+    const data = await response.json();
+    console.log(data);
+  }
 }
